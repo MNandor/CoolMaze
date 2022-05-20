@@ -18,23 +18,25 @@ def frame(fps = None):
 			exit()
 	
 
-
+# 32 x 18 is the same ratio as 1920x1080
+# greatest common divisor of 1920 1080 is 120
+width, height = 32, 18
 size = 30 #number of squares in a line
-sqsize = 20 #for drawing
+sqsize = 60 #for drawing
 drawframelen = 20*(size/15)**2
 
 
 clock = pygame.time.Clock()
-screen = pygame.display.set_mode((size*sqsize, size*sqsize))
+screen = pygame.display.set_mode((width*sqsize, height*sqsize))
 pygame.display.set_caption("RandBoolMaze")
 
 while True:
 
-	maze = generateMaze(size, size) #get fully random maze
+	maze = generateMaze(width, height) #get fully random maze
 	
 	#corners must always be walkable
 	maze[0][0] = 1
-	maze[size-1][size-1] = 1
+	maze[width-1][height-1] = 1
 
 	#display uncolored
 	for x in range(len(maze)):
@@ -60,8 +62,8 @@ while True:
 					
 					if mx-1 >= 0 and maze[mx-1][my] == 1: queue += [(mx-1, my)]
 					if my-1 >= 0 and maze[mx][my-1] == 1: queue += [(mx, my-1)]
-					if mx+1 < size and maze[mx+1][my] == 1: queue += [(mx+1, my)]
-					if my+1 < size and maze[mx][my+1] == 1: queue += [(mx, my+1)]
+					if mx+1 < width and maze[mx+1][my] == 1: queue += [(mx+1, my)]
+					if my+1 < height and maze[mx][my+1] == 1: queue += [(mx, my+1)]
 
 
 
@@ -83,8 +85,8 @@ while True:
 				neis = []
 				if x-1 >= 0: neis += [maze[x-1][y]]
 				if y-1 >= 0: neis += [maze[x][y-1]]
-				if x+1 < size: neis += [maze[x+1][y]]
-				if y+1 < size: neis += [maze[x][y+1]]
+				if x+1 < width: neis += [maze[x+1][y]]
+				if y+1 < height: neis += [maze[x][y+1]]
 				
 				
 				neis = [x for x in neis if x != 0 and x != 1]
@@ -106,7 +108,7 @@ while True:
 
 	print(additions)
 		
-	if maze[0][0] != maze[size-1][size-1]:
+	if maze[0][0] != maze[width-1][height-1]:
 		print("Too easy, I won't even bother")
 		continue
 		#exit()
@@ -148,7 +150,7 @@ while True:
 					color = (255,255,0)
 				if (x, y) == (mx, my):
 					color = (255,0,0)
-				if (x, y) == (size-1, size-1):
+				if (x, y) == (width-1, height-1):
 					color = (0,0,255)
 				if (x, y) == (0,0):
 					color = (0,0,255)
@@ -156,7 +158,7 @@ while True:
 				pygame.draw.rect(screen, color, (x*sqsize-1, y*sqsize-1, sqsize-2, sqsize-2))
 
 		
-		if (mx, my) == (size-1, size-1): break
+		if (mx, my) == (width-1, height-1): break
 		
 		toAdd = []
 		
@@ -164,9 +166,9 @@ while True:
 			toAdd += [(mx-1, my)]
 		if my-1 >= 0 and (mx, my-1) not in visited and maze[mx][my-1] != 0:
 			toAdd += [(mx, my-1)]
-		if mx+1 < size and (mx+1, my) not in visited and maze[mx+1][my] != 0:
+		if mx+1 < width and (mx+1, my) not in visited and maze[mx+1][my] != 0:
 			toAdd += [(mx+1, my)]
-		if my+1 < size and (mx, my+1) not in visited and maze[mx][my+1] != 0:
+		if my+1 < height and (mx, my+1) not in visited and maze[mx][my+1] != 0:
 			toAdd += [(mx, my+1)]
 			
 		for c in toAdd:
@@ -176,11 +178,11 @@ while True:
 		frame(drawframelen)
 
 
-	nt = parentMap[(size-1, size-1)]
+	nt = parentMap[(width-1, height-1)]
 	while nt != (0,0):
 		pygame.draw.rect(screen, (0,255,0), (nt[0]*sqsize-1, nt[1]*sqsize-1, sqsize-2, sqsize-2))
 		nt = parentMap[nt]
 		frame(drawframelen)
 		
-	pygame.draw.rect(screen, (0,0,0), (0,0, size*sqsize, size*sqsize))
+	pygame.draw.rect(screen, (0,0,0), (0,0, width*sqsize, height*sqsize))
 	frame(1)
