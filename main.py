@@ -1,3 +1,5 @@
+#!/bin/python3
+
 import pygame
 
 from generate import *
