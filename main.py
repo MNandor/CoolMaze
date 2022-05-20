@@ -120,16 +120,18 @@ while True:
 		for y in range(len(maze[x])):
 			if (x, y) in additions:
 				pygame.draw.rect(screen, (255,255,255), (x*sqsize-1, y*sqsize-1, sqsize-2, sqsize-2))
+				frame(60)
 			else:
 				pygame.draw.rect(screen, bc[maze[x][y]], (x*sqsize-1, y*sqsize-1, sqsize-2, sqsize-2))
 			
+	frame(60)
 	frame(1)
 
 	for x in range(len(maze)):
 		for y in range(len(maze[x])):
 			pygame.draw.rect(screen, bc[maze[x][y]], (x*sqsize-1, y*sqsize-1, sqsize-2, sqsize-2))
 			
-	frame(1)
+	frame(drawframelen)
 
 	#pathfind
 	running = True
