@@ -23,6 +23,10 @@ def frame(fps = None):
 width, height = 32, 18
 size = 30 #number of squares in a line
 sqsize = 60 #for drawing
+
+# width, height = width*2, height*2
+# sqsize /= 2
+
 drawframelen = 20*(size/15)**2
 
 
@@ -139,8 +143,10 @@ while True:
 	parentMap = {(0,0):None}
 	visited = []
 	while running:
-		mx, my = queue[0]
-		queue = queue[1:]
+# 		mx, my = queue[0]
+# 		queue = queue[1:]
+		mx, my = queue[-1]
+		queue = queue[:-1]
 
 		#draw
 		for x in range(len(maze)):
